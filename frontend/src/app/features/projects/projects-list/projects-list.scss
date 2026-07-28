@@ -1,3 +1,14 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.projects-table {
+  width: 100%;
+}
+
 .state-message {
   color: var(--mat-sys-on-surface-variant);
 
