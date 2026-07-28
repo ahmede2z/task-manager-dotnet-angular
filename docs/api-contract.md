@@ -45,7 +45,9 @@ Errors are RFC 7807 `ProblemDetails`.
 
 ### GET /api/projects/{projectId}/tasks
 - Path params: `projectId: number` (min 1)
+- Query params: `status?: 'ToDo' | 'InProgress' | 'Done'`
 - Response (200): `TaskListItemResponse[]` (see shape above)
+- Response (400): ProblemDetails — invalid `status` value
 - Response (404): ProblemDetails — project does not exist
 
 ### GET /api/tasks/{id}

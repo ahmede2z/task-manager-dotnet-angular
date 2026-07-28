@@ -330,7 +330,8 @@
             "url": {
               "raw": "{{baseUrl}}/api/projects/{{projectId}}/tasks",
               "host": [ "{{baseUrl}}" ],
-              "path": [ "api", "projects", "{{projectId}}", "tasks" ]
+              "path": [ "api", "projects", "{{projectId}}", "tasks" ],
+              "query": [ { "key": "status", "value": "ToDo", "disabled": true } ]
             }
           },
           "response": [
@@ -343,6 +344,24 @@
                   "raw": "{{baseUrl}}/api/projects/{{projectId}}/tasks",
                   "host": [ "{{baseUrl}}" ],
                   "path": [ "api", "projects", "{{projectId}}", "tasks" ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [ { "key": "Content-Type", "value": "application/json" } ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"title\": \"Design homepage mockup\",\n    \"description\": \"Create a high-fidelity mockup for the new homepage\",\n    \"status\": \"ToDo\",\n    \"dueDate\": \"2026-08-15\",\n    \"projectName\": \"Website Redesign\"\n  }\n]"
+            },
+            {
+              "name": "200 OK (filtered by status)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/projects/{{projectId}}/tasks?status=ToDo",
+                  "host": [ "{{baseUrl}}" ],
+                  "path": [ "api", "projects", "{{projectId}}", "tasks" ],
+                  "query": [ { "key": "status", "value": "ToDo" } ]
                 }
               },
               "status": "OK",
