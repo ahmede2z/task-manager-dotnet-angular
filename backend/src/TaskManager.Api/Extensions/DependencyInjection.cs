@@ -26,7 +26,7 @@ public static class DependencyInjection
         {
             options.AddPolicy("Development", builder =>
                 builder
-                    .WithOrigins("http://localhost:4200")
+                    .WithOrigins("http://localhost:4201")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
             );
