@@ -1,0 +1,15 @@
+<h1>Projects</h1>
+
+@if (projectsResource.isLoading()) {
+  <mat-spinner diameter="32" />
+} @else if (projectsResource.error()) {
+  <p class="state-message state-message--error">Could not load projects.</p>
+} @else if (!projectsResource.value()?.length) {
+  <p class="state-message">No projects yet.</p>
+} @else {
+  <mat-nav-list>
+    @for (project of projectsResource.value(); track project.id) {
+      <a mat-list-item>{{ project.name }}</a>
+    }
+  </mat-nav-list>
+}

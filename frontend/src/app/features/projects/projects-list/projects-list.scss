@@ -1,0 +1,7 @@
+.state-message {
+  color: var(--mat-sys-on-surface-variant);
+
+  &--error {
+    color: var(--mat-sys-error);
+  }
+}
