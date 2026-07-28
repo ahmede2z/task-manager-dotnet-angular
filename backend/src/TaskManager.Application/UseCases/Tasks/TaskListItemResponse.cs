@@ -1,4 +1,4 @@
-namespace TaskManager.Application.UseCases.Tasks.GetTasksByProject;
+namespace TaskManager.Application.UseCases.Tasks;
 
 public sealed record TaskListItemResponse(
     int Id,

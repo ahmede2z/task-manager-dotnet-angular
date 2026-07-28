@@ -2,6 +2,7 @@ using MediatR;
 using TaskManager.Application.Abstractions;
 using TaskManager.Application.Common;
 using TaskManager.Application.UseCases.Projects;
+using TaskManager.Application.UseCases.Tasks;
 
 namespace TaskManager.Application.UseCases.Tasks.GetTasksByProject;
 
