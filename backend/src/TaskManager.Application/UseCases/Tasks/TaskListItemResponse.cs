@@ -6,4 +6,4 @@ public sealed record TaskListItemResponse(
     string? Description,
     TaskStatus Status,
     DateOnly DueDate,
-    int ProjectId);
+    string ProjectName);
