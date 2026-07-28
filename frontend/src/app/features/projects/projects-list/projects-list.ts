@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 
 import { CreateProjectRequest, Project } from '../../../core/models/project.model';
 import { ProjectApiService } from '../../../core/services/project-api.service';
@@ -31,12 +32,17 @@ export class ProjectsList {
   private readonly projectApi = inject(ProjectApiService);
   private readonly notifications = inject(NotificationService);
   private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
 
   protected readonly displayedColumns = ['name', 'description', 'createdAt', 'actions'];
 
   protected readonly projectsResource = rxResource({
     stream: () => this.projectApi.getAll(),
   });
+
+  openDetails(project: Project): void {
+    this.router.navigate(['/projects', project.id]);
+  }
 
   openCreateDialog(): void {
     const ref = this.dialog.open<ProjectFormDialog, ProjectFormDialogData, CreateProjectRequest>(

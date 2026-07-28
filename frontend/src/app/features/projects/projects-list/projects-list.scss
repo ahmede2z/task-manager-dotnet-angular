@@ -9,6 +9,10 @@
   width: 100%;
 }
 
+.clickable-row {
+  cursor: pointer;
+}
+
 .state-message {
   color: var(--mat-sys-on-surface-variant);
 
