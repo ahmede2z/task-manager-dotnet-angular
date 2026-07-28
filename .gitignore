@@ -1,0 +1,59 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+*.dll
+*.exe
+*.pdb
+
+# .NET
+*.user
+*.suo
+*.userprefs
+project.lock.json
+.packages/
+*.nuget.props
+*.nuget.targets
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+*.sln.docstates
+*.csproj.user
+.vscode/*
+!.vscode/extensions.json
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+npm-debug.log*
+yarn-error.log*
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pfx
+*.key
+secrets.json
+
+# Local database files
+*.mdf
+*.ldf
+
+# Logs
+logs/
+*.log
+
+# OS
+Thumbs.db
+ehthumbs.db
+.DS_Store
+
+# Local working scaffolding, not part of the submission
+.claude/
+BRIEF.md
+CLAUDE.md
