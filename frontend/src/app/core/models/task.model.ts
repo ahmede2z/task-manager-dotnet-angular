@@ -1,5 +1,11 @@
 export type TaskStatus = 'ToDo' | 'InProgress' | 'Done';
 
+export const TASK_STATUSES: ReadonlyArray<{ value: TaskStatus; label: string }> = [
+  { value: 'ToDo', label: 'To Do' },
+  { value: 'InProgress', label: 'In Progress' },
+  { value: 'Done', label: 'Done' },
+];
+
 export interface TaskListItem {
   id: number;
   title: string;
