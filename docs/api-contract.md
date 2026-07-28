@@ -1,9 +1,9 @@
 # API contract
 
 Extracted from `backend/src/TaskManager.Api/Controllers/*.cs` and the DTOs they reference
-(2026-07-28). Base URL in Development: `http://localhost:5086`. All responses are JSON;
-`TaskStatus` is serialized as a string: `"ToDo" | "InProgress" | "Done"`. Errors are RFC 7807
-`ProblemDetails`.
+(2026-07-28, re-synced after subtask 5b). Base URL in Development: `http://localhost:5086`. All
+responses are JSON; `TaskStatus` is serialized as a string: `"ToDo" | "InProgress" | "Done"`.
+Errors are RFC 7807 `ProblemDetails`.
 
 ## Projects
 
@@ -40,7 +40,7 @@ Extracted from `backend/src/TaskManager.Api/Controllers/*.cs` and the DTOs they 
 ### GET /api/tasks
 - Query params: `status?: 'ToDo' | 'InProgress' | 'Done'`
 - Response (200): `TaskListItemResponse[]`
-  - `TaskListItemResponse`: `{ id: number, title: string, description: string | null, status: 'ToDo' | 'InProgress' | 'Done', dueDate: string /* YYYY-MM-DD */, projectId: number }`
+  - `TaskListItemResponse`: `{ id: number, title: string, description: string | null, status: 'ToDo' | 'InProgress' | 'Done', dueDate: string /* YYYY-MM-DD */, projectName: string }`
 - Response (400): ProblemDetails — invalid `status` value
 
 ### GET /api/projects/{projectId}/tasks
@@ -51,13 +51,13 @@ Extracted from `backend/src/TaskManager.Api/Controllers/*.cs` and the DTOs they 
 ### GET /api/tasks/{id}
 - Path params: `id: number` (min 1)
 - Response (200): `TaskResponse`
-  - `TaskResponse`: `{ id: number, title: string, description: string | null, status: 'ToDo' | 'InProgress' | 'Done', dueDate: string /* YYYY-MM-DD */, projectId: number }`
+  - `TaskResponse`: `{ id: number, title: string, description: string | null, status: 'ToDo' | 'InProgress' | 'Done', dueDate: string /* YYYY-MM-DD */, projectName: string }`
 - Response (404): ProblemDetails
 
 ### POST /api/tasks
 - Request body: `{ title: string /* required, max 200 */, description?: string /* max 1000 */, status: 'ToDo' | 'InProgress' | 'Done', dueDate: string /* YYYY-MM-DD, required */, projectId: number /* required, must reference an existing project */ }`
 - Response (201): `CreateTaskResponse`
-  - `CreateTaskResponse`: `{ id: number, title: string, description: string | null, status: 'ToDo' | 'InProgress' | 'Done', dueDate: string /* YYYY-MM-DD */, projectId: number }`
+  - `CreateTaskResponse`: `{ id: number, title: string, description: string | null, status: 'ToDo' | 'InProgress' | 'Done', dueDate: string /* YYYY-MM-DD */, projectId: number }` — note: create/update echo `projectId` (the field the client just sent), not `projectName`; only the read endpoints above resolve the name (D29).
 - Response (400): ProblemDetails, per-field errors
 - Response (404): ProblemDetails — `projectId` does not reference an existing project
 
