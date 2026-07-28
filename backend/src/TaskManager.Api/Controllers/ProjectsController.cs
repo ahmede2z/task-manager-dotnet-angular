@@ -15,7 +15,7 @@ namespace TaskManager.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class ProjectsController : ControllerBase
+public class ProjectsController : ApiControllerBase
 {
     private readonly ISender _mediator;
 
@@ -115,48 +115,5 @@ public class ProjectsController : ControllerBase
         }
 
         return NoContent();
-    }
-
-    private IActionResult MapResultToResponse(Result result)
-    {
-        return result.Error!.Type switch
-        {
-            ErrorType.NotFound => NotFound(new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-                Title = "Not found",
-                Status = StatusCodes.Status404NotFound,
-                Detail = result.Error.Message
-            }),
-            ErrorType.Validation => BadRequest(new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-                Title = "Validation failed",
-                Status = StatusCodes.Status400BadRequest,
-                Detail = result.Error.Message
-            }),
-            ErrorType.Conflict => Conflict(new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.8",
-                Title = "Conflict",
-                Status = StatusCodes.Status409Conflict,
-                Detail = result.Error.Message
-            }),
-            ErrorType.Unauthorized => Unauthorized(new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc7235#section-3.1",
-                Title = "Unauthorized",
-                Status = StatusCodes.Status401Unauthorized,
-                Detail = result.Error.Message
-            }),
-            ErrorType.Forbidden => Forbid(),
-            _ => StatusCode(StatusCodes.Status500InternalServerError, new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
-                Title = "An error occurred",
-                Status = StatusCodes.Status500InternalServerError,
-                Detail = result.Error.Message
-            })
-        };
     }
 }
