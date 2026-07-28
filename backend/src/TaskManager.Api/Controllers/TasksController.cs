@@ -54,14 +54,15 @@ public class TasksController : ApiControllerBase
     }
 
     /// <summary>
-    /// Get all tasks for a project.
+    /// Get all tasks for a project, optionally filtered by status.
     /// </summary>
     [HttpGet("/api/projects/{projectId:int:min(1)}/tasks")]
     [ProducesResponseType(typeof(TaskListItemResponse[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetByProject(int projectId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetByProject(int projectId, [FromQuery] TaskStatus? status, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new GetTasksByProjectQuery(projectId), cancellationToken);
+        var result = await _mediator.Send(new GetTasksByProjectQuery(projectId, status), cancellationToken);
         if (result.IsFailure)
         {
             return MapResultToResponse(result);

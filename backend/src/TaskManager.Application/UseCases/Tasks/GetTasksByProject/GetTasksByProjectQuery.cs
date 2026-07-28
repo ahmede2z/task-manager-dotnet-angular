@@ -4,4 +4,4 @@ using TaskManager.Application.UseCases.Tasks;
 
 namespace TaskManager.Application.UseCases.Tasks.GetTasksByProject;
 
-public sealed record GetTasksByProjectQuery(int ProjectId) : IRequest<Result<IReadOnlyList<TaskListItemResponse>>>;
+public sealed record GetTasksByProjectQuery(int ProjectId, TaskStatus? Status = null) : IRequest<Result<IReadOnlyList<TaskListItemResponse>>>;

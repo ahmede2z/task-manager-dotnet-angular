@@ -21,7 +21,9 @@ public sealed class GetTasksByProjectQueryHandler(
             return Result.Failure<IReadOnlyList<TaskListItemResponse>>(ProjectErrors.NotFound(request.ProjectId));
         }
 
-        var tasks = await taskItemRepository.ListAsync(t => t.ProjectId == request.ProjectId, cancellationToken);
+        var tasks = await taskItemRepository.ListAsync(
+            t => t.ProjectId == request.ProjectId && (request.Status == null || t.Status == request.Status),
+            cancellationToken);
 
         var response = tasks
             .Select(t => new TaskListItemResponse(t.Id, t.Title, t.Description, t.Status, t.DueDate, project.Name))
