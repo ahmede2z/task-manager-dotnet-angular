@@ -1,0 +1,100 @@
+<button mat-button (click)="backToProjects()">
+  <mat-icon>arrow_back</mat-icon>
+  Projects
+</button>
+
+@if (projectResource.isLoading()) {
+  <mat-spinner diameter="32" />
+} @else if (projectResource.error()) {
+  <p class="state-message state-message--error">Could not load project.</p>
+} @else if (projectResource.value(); as project) {
+  <div class="header">
+    <div>
+      <h1>{{ project.name }}</h1>
+      <p class="description">{{ project.description ?? 'No description.' }}</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="openCreateDialog()">
+      <mat-icon>add</mat-icon>
+      New task
+    </button>
+  </div>
+
+  <mat-form-field appearance="outline" class="status-filter">
+    <mat-label>Filter by status</mat-label>
+    <mat-select
+      [value]="statusFilter()"
+      (selectionChange)="statusFilter.set($event.value)"
+    >
+      <mat-option value="">All</mat-option>
+      @for (option of statusOptions; track option.value) {
+        <mat-option [value]="option.value">{{ option.label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  @if (tasksResource.isLoading()) {
+    <mat-spinner diameter="32" />
+  } @else if (tasksResource.error()) {
+    <p class="state-message state-message--error">Could not load tasks.</p>
+  } @else if (!tasksResource.value()?.length) {
+    <p class="state-message">No tasks match this filter.</p>
+  } @else {
+    <table mat-table [dataSource]="tasksResource.value()!" class="tasks-table">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let task">{{ task.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let task">{{ task.description ?? '—' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let task">
+          <mat-form-field appearance="outline" class="status-select">
+            <mat-select
+              [value]="task.status"
+              (selectionChange)="changeStatus(task, $event.value)"
+            >
+              @for (option of statusOptions; track option.value) {
+                <mat-option [value]="option.value">{{ option.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dueDate">
+        <th mat-header-cell *matHeaderCellDef>Due date</th>
+        <td mat-cell *matCellDef="let task">{{ task.dueDate | date: 'mediumDate' : 'UTC' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let task">
+          <button
+            mat-icon-button
+            matTooltip="Edit"
+            [attr.aria-label]="'Edit ' + task.title"
+            (click)="openEditDialog(task)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            matTooltip="Delete"
+            [attr.aria-label]="'Delete ' + task.title"
+            (click)="confirmDelete(task)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  }
+}

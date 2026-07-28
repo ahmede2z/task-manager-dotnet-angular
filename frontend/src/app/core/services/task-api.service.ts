@@ -23,8 +23,9 @@ export class TaskApiService {
     return this.http.get<TaskListItem[]>(this.baseUrl, { params });
   }
 
-  getByProject(projectId: number): Observable<TaskListItem[]> {
-    return this.http.get<TaskListItem[]>(`${this.projectsUrl}/${projectId}/tasks`);
+  getByProject(projectId: number, status?: TaskStatus): Observable<TaskListItem[]> {
+    const params = status ? new HttpParams().set('status', status) : undefined;
+    return this.http.get<TaskListItem[]>(`${this.projectsUrl}/${projectId}/tasks`, { params });
   }
 
   getById(id: number): Observable<TaskDetail> {

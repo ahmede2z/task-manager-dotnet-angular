@@ -11,4 +11,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/projects/projects-list/projects-list').then((m) => m.ProjectsList),
   },
+  {
+    path: 'projects/:id',
+    loadComponent: () =>
+      import('./features/projects/project-details/project-details').then((m) => m.ProjectDetails),
+  },
 ];
