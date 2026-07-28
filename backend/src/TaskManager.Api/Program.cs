@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using TaskManager.Api.Extensions;
 using TaskManager.Api.Middleware;
@@ -26,7 +27,7 @@ if (app.Environment.IsDevelopment())
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        context.Database.EnsureCreated();
+        await context.Database.MigrateAsync();
         await ApplicationDbContextSeeder.SeedAsync(context, CancellationToken.None);
     }
 }
